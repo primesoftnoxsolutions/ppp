@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -36,13 +36,6 @@
             padding: 20px;
         }
 
-        .workspace {
-            width: min(100%, 760px);
-            display: flex;
-            align-items: stretch;
-            gap: 16px;
-        }
-
         .calculator {
             width: 100%;
             max-width: 360px;
@@ -58,6 +51,15 @@
                 inset 0 -1px 0 rgba(255, 255, 255, 0.08);
         }
 
+        .calculator-heading {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            margin-bottom: 10px;
+            padding: 0 8px;
+        }
+
         .display {
             color: var(--display);
             font-size: clamp(2.2rem, 6vw, 4.2rem);
@@ -70,6 +72,80 @@
             word-break: break-all;
             margin-bottom: 14px;
             padding: 0 8px;
+        }
+
+        .history-panel {
+            margin: 0 8px 14px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(18px) saturate(130%);
+            -webkit-backdrop-filter: blur(18px) saturate(130%);
+            padding: 12px 10px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .history-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .history-clear {
+            border: none;
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            padding: 8px 12px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .history-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            padding-right: 4px;
+            max-height: 134px;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            padding: 8px 10px;
+        }
+
+        .history-expression {
+            font-size: 0.86rem;
+            opacity: 0.8;
+            margin-bottom: 2px;
+            word-break: break-all;
+        }
+
+        .history-result {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .history-empty {
+            opacity: 0.72;
+            font-size: 0.9rem;
+            padding: 10px 4px;
         }
 
         .buttons {
@@ -137,126 +213,17 @@
             padding-left: 28px;
         }
 
-        .history-panel {
-            flex: 1;
-            min-width: 240px;
-            background: rgba(15, 17, 24, 0.55);
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(24px) saturate(150%);
-            -webkit-backdrop-filter: blur(24px) saturate(150%);
-            box-shadow:
-                0 18px 40px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            padding: 16px 14px;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .history-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .history-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-
-        .history-clear {
-            border: none;
-            background: rgba(255, 255, 255, 0.16);
-            color: #fff;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            padding: 8px 12px;
-            height: auto;
-            cursor: pointer;
-        }
-
-        .history-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-            padding-right: 4px;
-        }
-
-        .history-item {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 12px;
-            padding: 8px 10px;
-        }
-
-        .history-expression {
-            font-size: 0.86rem;
-            opacity: 0.8;
-            margin-bottom: 2px;
-            word-break: break-all;
-        }
-
-        .history-result {
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: right;
-            word-break: break-all;
-        }
-
-        .history-empty {
-            opacity: 0.72;
-            font-size: 0.9rem;
-            padding: 10px 4px;
-        }
-
-        @media (max-width: 760px) {
-            .workspace {
-                flex-direction: column;
-                width: min(100%, 360px);
-            }
-
-            .history-panel {
-                min-width: 100%;
+        @media (max-width: 420px) {
+            .calculator-heading {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="workspace">
-        <main class="calculator">
-            <div id="display" class="display">0</div>
-
-            <div class="buttons">
-                <button class="utility" data-action="clear">AC</button>
-                <button class="utility" data-action="toggle-sign">+/-</button>
-                <button class="utility" data-action="percent">%</button>
-                <button class="operator" data-action="operator" data-value="/">&divide;</button>
-
-                <button class="number" data-action="number" data-value="7">7</button>
-                <button class="number" data-action="number" data-value="8">8</button>
-                <button class="number" data-action="number" data-value="9">9</button>
-                <button class="operator" data-action="operator" data-value="*">&times;</button>
-
-                <button class="number" data-action="number" data-value="4">4</button>
-                <button class="number" data-action="number" data-value="5">5</button>
-                <button class="number" data-action="number" data-value="6">6</button>
-                <button class="operator" data-action="operator" data-value="-">&minus;</button>
-
-                <button class="number" data-action="number" data-value="1">1</button>
-                <button class="number" data-action="number" data-value="2">2</button>
-                <button class="number" data-action="number" data-value="3">3</button>
-                <button class="operator" data-action="operator" data-value="+">+</button>
-
-                <button class="number zero" data-action="number" data-value="0">0</button>
-                <button class="number" data-action="decimal">.</button>
-                <button class="operator" data-action="equals">=</button>
-            </div>
-        </main>
+    <main class="calculator">
+        <h1 class="calculator-heading">Glassy Calculator</h1>
+        <div id="display" class="display">0</div>
 
         <aside class="history-panel" aria-label="Calculation history">
             <div class="history-header">
@@ -267,7 +234,33 @@
                 <li class="history-empty">No calculations yet</li>
             </ul>
         </aside>
-    </div>
+
+        <div class="buttons">
+            <button class="utility" data-action="clear">AC</button>
+            <button class="utility" data-action="toggle-sign">+/-</button>
+            <button class="utility" data-action="percent">%</button>
+            <button class="operator" data-action="operator" data-value="/">&divide;</button>
+
+            <button class="number" data-action="number" data-value="7">7</button>
+            <button class="number" data-action="number" data-value="8">8</button>
+            <button class="number" data-action="number" data-value="9">9</button>
+            <button class="operator" data-action="operator" data-value="*">&times;</button>
+
+            <button class="number" data-action="number" data-value="4">4</button>
+            <button class="number" data-action="number" data-value="5">5</button>
+            <button class="number" data-action="number" data-value="6">6</button>
+            <button class="operator" data-action="operator" data-value="-">&minus;</button>
+
+            <button class="number" data-action="number" data-value="1">1</button>
+            <button class="number" data-action="number" data-value="2">2</button>
+            <button class="number" data-action="number" data-value="3">3</button>
+            <button class="operator" data-action="operator" data-value="+">+</button>
+
+            <button class="number zero" data-action="number" data-value="0">0</button>
+            <button class="number" data-action="decimal">.</button>
+            <button class="operator" data-action="equals">=</button>
+        </div>
+    </main>
 
     <script>
         const display = document.getElementById("display");
@@ -287,8 +280,8 @@
         }
 
         function getOperatorSymbol(op) {
-            if (op === "/") return "÷";
-            if (op === "*") return "×";
+            if (op === "/") return "Ã·";
+            if (op === "*") return "Ã—";
             if (op === "-") return "-";
             return op;
         }
