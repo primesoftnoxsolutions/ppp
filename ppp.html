@@ -3,9 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>iOS Calculator</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --display: #ffffff;
+            --number-btn: #333333;
+            --number-btn-active: #4a4a4a;
+            --util-btn: #a5a5a5;
+            --util-btn-active: #c6c6c6;
+            --operator-btn: #ff9f0a;
+            --operator-btn-active: #ffb340;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(circle at top, #1f1f1f 0%, #000 45%);
+            padding: 20px;
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 360px;
+            background: var(--bg);
+            border-radius: 34px;
+            padding: 24px 16px 20px;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
+        }
+
+        .display {
+            color: var(--display);
+            font-size: clamp(2.2rem, 6vw, 4.2rem);
+            text-align: right;
+            min-height: 94px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            overflow: hidden;
+            word-break: break-all;
+            margin-bottom: 14px;
+            padding: 0 8px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            border-radius: 50%;
+            height: 72px;
+            font-size: 1.9rem;
+            cursor: pointer;
+            transition: transform 0.08s ease, filter 0.08s ease;
+            color: white;
+        }
+
+        button:active {
+            transform: scale(0.96);
+            filter: brightness(1.1);
+        }
+
+        .number {
+            background: var(--number-btn);
+        }
+
+        .number:active {
+            background: var(--number-btn-active);
+        }
+
+        .utility {
+            background: var(--util-btn);
+            color: #000;
+        }
+
+        .utility:active {
+            background: var(--util-btn-active);
+        }
+
+        .operator {
+            background: var(--operator-btn);
+        }
+
+        .operator:active {
+            background: var(--operator-btn-active);
+        }
+
+        .zero {
+            grid-column: span 2;
+            border-radius: 999px;
+            text-align: left;
+            padding-left: 28px;
+        }
+    </style>
 </head>
 <body>
-    lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate. Voluptas, voluptate
+    <main class="calculator">
+        <div id="display" class="display">0</div>
+
+        <div class="buttons">
+            <button class="utility" data-action="clear">AC</button>
+            <button class="utility" data-action="toggle-sign">+/-</button>
+            <button class="utility" data-action="percent">%</button>
+            <button class="operator" data-action="operator" data-value="/">÷</button>
+
+            <button class="number" data-action="number" data-value="7">7</button>
+            <button class="number" data-action="number" data-value="8">8</button>
+            <button class="number" data-action="number" data-value="9">9</button>
+            <button class="operator" data-action="operator" data-value="*">×</button>
+
+            <button class="number" data-action="number" data-value="4">4</button>
+            <button class="number" data-action="number" data-value="5">5</button>
+            <button class="number" data-action="number" data-value="6">6</button>
+            <button class="operator" data-action="operator" data-value="-">−</button>
+
+            <button class="number" data-action="number" data-value="1">1</button>
+            <button class="number" data-action="number" data-value="2">2</button>
+            <button class="number" data-action="number" data-value="3">3</button>
+            <button class="operator" data-action="operator" data-value="+">+</button>
+
+            <button class="number zero" data-action="number" data-value="0">0</button>
+            <button class="number" data-action="decimal">.</button>
+            <button class="operator" data-action="equals">=</button>
+        </div>
+    </main>
+
+    <script>
+        const display = document.getElementById("display");
+        const buttons = document.querySelector(".buttons");
+
+        let currentInput = "0";
+        let previousInput = null;
+        let operator = null;
+        let shouldResetInput = false;
+
+        function updateDisplay() {
+            display.textContent = currentInput;
+        }
+
+        function inputNumber(value) {
+            if (currentInput === "0" || shouldResetInput) {
+                currentInput = value;
+                shouldResetInput = false;
+            } else {
+                currentInput += value;
+            }
+            updateDisplay();
+        }
+
+        function inputDecimal() {
+            if (shouldResetInput) {
+                currentInput = "0.";
+                shouldResetInput = false;
+            } else if (!currentInput.includes(".")) {
+                currentInput += ".";
+            }
+            updateDisplay();
+        }
+
+        function clearAll() {
+            currentInput = "0";
+            previousInput = null;
+            operator = null;
+            shouldResetInput = false;
+            updateDisplay();
+        }
+
+        function toggleSign() {
+            if (currentInput !== "0") {
+                currentInput = String(Number(currentInput) * -1);
+                updateDisplay();
+            }
+        }
+
+        function percent() {
+            currentInput = String(Number(currentInput) / 100);
+            updateDisplay();
+        }
+
+        function setOperator(nextOperator) {
+            if (operator && !shouldResetInput) {
+                calculate();
+            }
+            previousInput = currentInput;
+            operator = nextOperator;
+            shouldResetInput = true;
+        }
+
+        function calculate() {
+            if (!operator || previousInput === null) return;
+
+            const prev = Number(previousInput);
+            const current = Number(currentInput);
+            let result = 0;
+
+            if (operator === "+") result = prev + current;
+            if (operator === "-") result = prev - current;
+            if (operator === "*") result = prev * current;
+            if (operator === "/") result = current === 0 ? 0 : prev / current;
+
+            currentInput = String(Number(result.toFixed(10)));
+            operator = null;
+            previousInput = null;
+            shouldResetInput = true;
+            updateDisplay();
+        }
+
+        buttons.addEventListener("click", (event) => {
+            const button = event.target.closest("button");
+            if (!button) return;
+
+            const action = button.dataset.action;
+            const value = button.dataset.value;
+
+            if (action === "number") inputNumber(value);
+            if (action === "decimal") inputDecimal();
+            if (action === "clear") clearAll();
+            if (action === "toggle-sign") toggleSign();
+            if (action === "percent") percent();
+            if (action === "operator") setOperator(value);
+            if (action === "equals") calculate();
+        });
+    </script>
 </body>
 </html>
