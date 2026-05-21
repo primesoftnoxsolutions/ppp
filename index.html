@@ -25,15 +25,25 @@
 
         body {
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             background:
                 radial-gradient(circle at 10% 18%, rgba(131, 228, 255, 0.42), transparent 36%),
                 radial-gradient(circle at 86% 12%, rgba(248, 179, 255, 0.32), transparent 32%),
                 radial-gradient(circle at 50% 88%, rgba(129, 150, 255, 0.28), transparent 35%),
                 linear-gradient(130deg, #02040a 0%, #0a1022 45%, #090d16 100%);
             padding: 20px;
+        }
+
+        .layout {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .calculator-wrap {
+            display: flex;
+            justify-content: flex-end;
         }
 
         .calculator {
@@ -75,13 +85,13 @@
         }
 
         .history-panel {
-            margin: 0 8px 14px;
+            width: 100%;
             background: rgba(255, 255, 255, 0.07);
-            border-radius: 16px;
+            border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.16);
             backdrop-filter: blur(18px) saturate(130%);
             -webkit-backdrop-filter: blur(18px) saturate(130%);
-            padding: 12px 10px;
+            padding: 16px 14px;
             color: #fff;
             display: flex;
             flex-direction: column;
@@ -217,14 +227,15 @@
             .calculator-heading {
                 font-size: 1rem;
             }
+
+            .calculator-wrap {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
-    <main class="calculator">
-        <h1 class="calculator-heading">Glassy Calculator</h1>
-        <div id="display" class="display">0</div>
-
+    <div class="layout">
         <aside class="history-panel" aria-label="Calculation history">
             <div class="history-header">
                 <h2 class="history-title">History</h2>
@@ -235,32 +246,39 @@
             </ul>
         </aside>
 
-        <div class="buttons">
-            <button class="utility" data-action="clear">AC</button>
-            <button class="utility" data-action="toggle-sign">+/-</button>
-            <button class="utility" data-action="percent">%</button>
-            <button class="operator" data-action="operator" data-value="/">&divide;</button>
+        <div class="calculator-wrap">
+            <main class="calculator">
+                <h1 class="calculator-heading">Glassy Calculator</h1>
+                <div id="display" class="display">0</div>
 
-            <button class="number" data-action="number" data-value="7">7</button>
-            <button class="number" data-action="number" data-value="8">8</button>
-            <button class="number" data-action="number" data-value="9">9</button>
-            <button class="operator" data-action="operator" data-value="*">&times;</button>
+                <div class="buttons">
+                    <button class="utility" data-action="clear">AC</button>
+                    <button class="utility" data-action="toggle-sign">+/-</button>
+                    <button class="utility" data-action="percent">%</button>
+                    <button class="operator" data-action="operator" data-value="/">&divide;</button>
 
-            <button class="number" data-action="number" data-value="4">4</button>
-            <button class="number" data-action="number" data-value="5">5</button>
-            <button class="number" data-action="number" data-value="6">6</button>
-            <button class="operator" data-action="operator" data-value="-">&minus;</button>
+                    <button class="number" data-action="number" data-value="7">7</button>
+                    <button class="number" data-action="number" data-value="8">8</button>
+                    <button class="number" data-action="number" data-value="9">9</button>
+                    <button class="operator" data-action="operator" data-value="*">&times;</button>
 
-            <button class="number" data-action="number" data-value="1">1</button>
-            <button class="number" data-action="number" data-value="2">2</button>
-            <button class="number" data-action="number" data-value="3">3</button>
-            <button class="operator" data-action="operator" data-value="+">+</button>
+                    <button class="number" data-action="number" data-value="4">4</button>
+                    <button class="number" data-action="number" data-value="5">5</button>
+                    <button class="number" data-action="number" data-value="6">6</button>
+                    <button class="operator" data-action="operator" data-value="-">&minus;</button>
 
-            <button class="number zero" data-action="number" data-value="0">0</button>
-            <button class="number" data-action="decimal">.</button>
-            <button class="operator" data-action="equals">=</button>
+                    <button class="number" data-action="number" data-value="1">1</button>
+                    <button class="number" data-action="number" data-value="2">2</button>
+                    <button class="number" data-action="number" data-value="3">3</button>
+                    <button class="operator" data-action="operator" data-value="+">+</button>
+
+                    <button class="number zero" data-action="number" data-value="0">0</button>
+                    <button class="number" data-action="decimal">.</button>
+                    <button class="operator" data-action="equals">=</button>
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
 
     <script>
         const display = document.getElementById("display");
