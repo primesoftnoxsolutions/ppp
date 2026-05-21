@@ -25,14 +25,22 @@
 
         body {
             min-height: 100vh;
-            display: grid;
-            place-items: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background:
                 radial-gradient(circle at 10% 18%, rgba(131, 228, 255, 0.42), transparent 36%),
                 radial-gradient(circle at 86% 12%, rgba(248, 179, 255, 0.32), transparent 32%),
                 radial-gradient(circle at 50% 88%, rgba(129, 150, 255, 0.28), transparent 35%),
                 linear-gradient(130deg, #02040a 0%, #0a1022 45%, #090d16 100%);
             padding: 20px;
+        }
+
+        .workspace {
+            width: min(100%, 760px);
+            display: flex;
+            align-items: stretch;
+            gap: 16px;
         }
 
         .calculator {
@@ -128,50 +136,185 @@
             text-align: left;
             padding-left: 28px;
         }
+
+        .history-panel {
+            flex: 1;
+            min-width: 240px;
+            background: rgba(15, 17, 24, 0.55);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(24px) saturate(150%);
+            -webkit-backdrop-filter: blur(24px) saturate(150%);
+            box-shadow:
+                0 18px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            padding: 16px 14px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .history-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .history-clear {
+            border: none;
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            padding: 8px 12px;
+            height: auto;
+            cursor: pointer;
+        }
+
+        .history-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            padding: 8px 10px;
+        }
+
+        .history-expression {
+            font-size: 0.86rem;
+            opacity: 0.8;
+            margin-bottom: 2px;
+            word-break: break-all;
+        }
+
+        .history-result {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .history-empty {
+            opacity: 0.72;
+            font-size: 0.9rem;
+            padding: 10px 4px;
+        }
+
+        @media (max-width: 760px) {
+            .workspace {
+                flex-direction: column;
+                width: min(100%, 360px);
+            }
+
+            .history-panel {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <main class="calculator">
-        <div id="display" class="display">0</div>
+    <div class="workspace">
+        <main class="calculator">
+            <div id="display" class="display">0</div>
 
-        <div class="buttons">
-            <button class="utility" data-action="clear">AC</button>
-            <button class="utility" data-action="toggle-sign">+/-</button>
-            <button class="utility" data-action="percent">%</button>
-            <button class="operator" data-action="operator" data-value="/">Ã·</button>
+            <div class="buttons">
+                <button class="utility" data-action="clear">AC</button>
+                <button class="utility" data-action="toggle-sign">+/-</button>
+                <button class="utility" data-action="percent">%</button>
+                <button class="operator" data-action="operator" data-value="/">&divide;</button>
 
-            <button class="number" data-action="number" data-value="7">7</button>
-            <button class="number" data-action="number" data-value="8">8</button>
-            <button class="number" data-action="number" data-value="9">9</button>
-            <button class="operator" data-action="operator" data-value="*">Ã—</button>
+                <button class="number" data-action="number" data-value="7">7</button>
+                <button class="number" data-action="number" data-value="8">8</button>
+                <button class="number" data-action="number" data-value="9">9</button>
+                <button class="operator" data-action="operator" data-value="*">&times;</button>
 
-            <button class="number" data-action="number" data-value="4">4</button>
-            <button class="number" data-action="number" data-value="5">5</button>
-            <button class="number" data-action="number" data-value="6">6</button>
-            <button class="operator" data-action="operator" data-value="-">âˆ’</button>
+                <button class="number" data-action="number" data-value="4">4</button>
+                <button class="number" data-action="number" data-value="5">5</button>
+                <button class="number" data-action="number" data-value="6">6</button>
+                <button class="operator" data-action="operator" data-value="-">&minus;</button>
 
-            <button class="number" data-action="number" data-value="1">1</button>
-            <button class="number" data-action="number" data-value="2">2</button>
-            <button class="number" data-action="number" data-value="3">3</button>
-            <button class="operator" data-action="operator" data-value="+">+</button>
+                <button class="number" data-action="number" data-value="1">1</button>
+                <button class="number" data-action="number" data-value="2">2</button>
+                <button class="number" data-action="number" data-value="3">3</button>
+                <button class="operator" data-action="operator" data-value="+">+</button>
 
-            <button class="number zero" data-action="number" data-value="0">0</button>
-            <button class="number" data-action="decimal">.</button>
-            <button class="operator" data-action="equals">=</button>
-        </div>
-    </main>
+                <button class="number zero" data-action="number" data-value="0">0</button>
+                <button class="number" data-action="decimal">.</button>
+                <button class="operator" data-action="equals">=</button>
+            </div>
+        </main>
+
+        <aside class="history-panel" aria-label="Calculation history">
+            <div class="history-header">
+                <h2 class="history-title">History</h2>
+                <button id="clearHistory" class="history-clear">Clear</button>
+            </div>
+            <ul id="historyList" class="history-list">
+                <li class="history-empty">No calculations yet</li>
+            </ul>
+        </aside>
+    </div>
 
     <script>
         const display = document.getElementById("display");
         const buttons = document.querySelector(".buttons");
+        const historyList = document.getElementById("historyList");
+        const clearHistoryButton = document.getElementById("clearHistory");
 
         let currentInput = "0";
         let previousInput = null;
         let operator = null;
         let shouldResetInput = false;
+        let historyEntries = [];
+        const maxHistoryEntries = 15;
 
         function updateDisplay() {
             display.textContent = currentInput;
+        }
+
+        function getOperatorSymbol(op) {
+            if (op === "/") return "÷";
+            if (op === "*") return "×";
+            if (op === "-") return "-";
+            return op;
+        }
+
+        function renderHistory() {
+            if (!historyEntries.length) {
+                historyList.innerHTML = '<li class="history-empty">No calculations yet</li>';
+                return;
+            }
+
+            historyList.innerHTML = historyEntries
+                .map((entry) => (
+                    `<li class="history-item">
+                        <p class="history-expression">${entry.expression}</p>
+                        <p class="history-result">= ${entry.result}</p>
+                    </li>`
+                ))
+                .join("");
+        }
+
+        function addHistory(expression, result) {
+            historyEntries.unshift({ expression, result });
+            if (historyEntries.length > maxHistoryEntries) {
+                historyEntries = historyEntries.slice(0, maxHistoryEntries);
+            }
+            renderHistory();
         }
 
         function inputNumber(value) {
@@ -216,18 +359,19 @@
 
         function setOperator(nextOperator) {
             if (operator && !shouldResetInput) {
-                calculate();
+                calculate(false);
             }
             previousInput = currentInput;
             operator = nextOperator;
             shouldResetInput = true;
         }
 
-        function calculate() {
+        function calculate(recordHistory = true) {
             if (!operator || previousInput === null) return;
 
             const prev = Number(previousInput);
             const current = Number(currentInput);
+            const expression = `${previousInput} ${getOperatorSymbol(operator)} ${currentInput}`;
             let result = 0;
 
             if (operator === "+") result = prev + current;
@@ -236,6 +380,9 @@
             if (operator === "/") result = current === 0 ? 0 : prev / current;
 
             currentInput = String(Number(result.toFixed(10)));
+            if (recordHistory) {
+                addHistory(expression, currentInput);
+            }
             operator = null;
             previousInput = null;
             shouldResetInput = true;
@@ -256,6 +403,11 @@
             if (action === "percent") percent();
             if (action === "operator") setOperator(value);
             if (action === "equals") calculate();
+        });
+
+        clearHistoryButton.addEventListener("click", () => {
+            historyEntries = [];
+            renderHistory();
         });
     </script>
 </body>
