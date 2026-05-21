@@ -6,10 +6,10 @@
     <title>iOS Calculator</title>
     <style>
         :root {
-            --bg: #000000;
+            --bg: rgba(15, 17, 24, 0.62);
             --display: #ffffff;
-            --number-btn: #333333;
-            --number-btn-active: #4a4a4a;
+            --number-btn: linear-gradient(155deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.08));
+            --number-btn-active: linear-gradient(155deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.14));
             --util-btn: #a5a5a5;
             --util-btn-active: #c6c6c6;
             --operator-btn: #ff9f0a;
@@ -27,7 +27,11 @@
             min-height: 100vh;
             display: grid;
             place-items: center;
-            background: radial-gradient(circle at top, #1f1f1f 0%, #000 45%);
+            background:
+                radial-gradient(circle at 10% 18%, rgba(131, 228, 255, 0.42), transparent 36%),
+                radial-gradient(circle at 86% 12%, rgba(248, 179, 255, 0.32), transparent 32%),
+                radial-gradient(circle at 50% 88%, rgba(129, 150, 255, 0.28), transparent 35%),
+                linear-gradient(130deg, #02040a 0%, #0a1022 45%, #090d16 100%);
             padding: 20px;
         }
 
@@ -37,7 +41,13 @@
             background: var(--bg);
             border-radius: 34px;
             padding: 24px 16px 20px;
-            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(24px) saturate(160%);
+            -webkit-backdrop-filter: blur(24px) saturate(160%);
+            box-shadow:
+                0 20px 48px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .display {
@@ -66,17 +76,29 @@
             height: 72px;
             font-size: 1.9rem;
             cursor: pointer;
-            transition: transform 0.08s ease, filter 0.08s ease;
+            transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
             color: white;
         }
 
         button:active {
-            transform: scale(0.96);
-            filter: brightness(1.1);
+            transform: scale(0.95);
+            filter: brightness(1.18);
+            box-shadow:
+                inset 0 2px 10px rgba(255, 255, 255, 0.28),
+                inset 0 -18px 22px rgba(0, 0, 0, 0.2),
+                0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .number {
             background: var(--number-btn);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(14px) saturate(150%);
+            -webkit-backdrop-filter: blur(14px) saturate(150%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -10px 18px rgba(255, 255, 255, 0.06),
+                inset 0 14px 18px rgba(255, 255, 255, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.28);
         }
 
         .number:active {
